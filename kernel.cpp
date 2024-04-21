@@ -1,12 +1,13 @@
+
+#include "types.h"
 #include "gdt.h"
-#include "type.h"
 #include "interrupts.h"
 
 void printf(char *str)
 {
-    uint16_t *VideoMemory = (uint16_t *)0xb8000;
+    static uint16_t *VideoMemory = (uint16_t *)0xb8000;
 
-    static uint16_t x = 0, y = 0;
+    static uint8_t x = 0, y = 0;
 
     // screen 80 characters wide and 25 high
     for (int i = 0; str[i] != '\0'; i++)
@@ -14,10 +15,9 @@ void printf(char *str)
         switch (str[i])
         {
         case '\n':
-            y++;
             x = 0;
+            y++;
             break;
-
         default:
             VideoMemory[80 * y + x] = (VideoMemory[80 * y + x] & 0xFF00) | str[i];
             x++;
@@ -26,8 +26,8 @@ void printf(char *str)
 
         if (x >= 80)
         {
-            y++;
             x = 0;
+            y++;
         }
 
         if (y >= 25)

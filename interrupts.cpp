@@ -13,8 +13,8 @@ void InterruptManager::SetInterruptDescriptorTableEntry(
 
     const uint8_t IDT_DESC_PRESENT = 0x80;
 
-    interruptDescriptorTable[interruptNumber].handlerAddressLowBits = ((uint32_t)handler) && 0xFFFF;
-    interruptDescriptorTable[interruptNumber].handlerAddressHighBits = ((uint32_t)handler >> 16) && 0xFFFF;
+    interruptDescriptorTable[interruptNumber].handlerAddressLowBits = ((uint32_t)handler) & 0xFFFF;
+    interruptDescriptorTable[interruptNumber].handlerAddressHighBits = ((uint32_t)handler >> 16) & 0xFFFF;
     interruptDescriptorTable[interruptNumber].gdt_codeSegmentSelector = codeSegmentSelectorOffset;
     interruptDescriptorTable[interruptNumber].access = IDT_DESC_PRESENT | DescriptorType | ((DescriptorPrivilegeLevel & 3) << 5);
     interruptDescriptorTable[interruptNumber].reserved = 0;
@@ -26,7 +26,7 @@ InterruptManager::InterruptManager(GlobalDescriptorTable *gdt)
       picSlaveCommand(0xA0),
       picSlaveData(0xA1)
 {
-    uint16_t CodeSegment = gdt->CodeSegmentSelector();
+    uint32_t CodeSegment = gdt->CodeSegmentSelector();
     const uint8_t IDT_INTERRUPT_GATE = 0xE;
 
     for (uint16_t i = 0; i < 256; i++)

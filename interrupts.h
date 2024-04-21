@@ -1,7 +1,7 @@
 #ifndef __INTERRUPTS_H
 #define __INTERRUPTS_H
 #include "gdt.h"
-#include "type.h"
+#include "types.h"
 #include "port.h"
 
 class InterruptManager
