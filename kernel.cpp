@@ -1,5 +1,6 @@
 #include "gdt.h"
 #include "type.h"
+#include "interrupts.h"
 
 void printf(char *str)
 {
@@ -53,10 +54,13 @@ extern "C" void callConstructors()
 
 extern "C" void kernelMain(void *multiboot_structure, uint32_t magicnumber)
 {
-    printf("Hello world! --- dungpv\n");
+    printf("Hello world! --- dungpv");
     printf("Hello world! --- dungpv");
 
     GlobalDescriptorTable gdt;
+    InterruptManager interrupts(&gdt);
+
+    interrupts.Active();
 
     while (1)
         ;//do nothing
