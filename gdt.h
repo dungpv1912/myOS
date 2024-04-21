@@ -23,12 +23,12 @@ public:
 
     } __attribute__((packed));
 
-
     SegmentDescriptor nullSegmentSelector;
     SegmentDescriptor unusedSegmentSelector;
     SegmentDescriptor codeSegmentSelector;
     SegmentDescriptor dataSegmentSelector;
-    public:
+
+public:
     GlobalDescriptorTable();
     ~GlobalDescriptorTable();
     uint16_t CodeSegmentSelector();
